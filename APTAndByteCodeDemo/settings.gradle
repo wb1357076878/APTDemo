@@ -1,0 +1,2 @@
+include ':app', ':lifecycle_api', ':lifecycle-annotation'
+rootProject.name='APTAndByteCodeDemo'
