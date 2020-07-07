@@ -12,10 +12,10 @@ import android.content.Context
 import android.util.Log
 import com.rtmart.lifecycle_api.IAppLike
 
-class ModuleBAppLike : IAppLike() {
+class ModuleBAppLike : IAppLike {
 
     override val priority: Int
-        get() = MAX_PRIORITY
+        get() = IAppLike.MIN_PRIORITY
 
     override fun onCreate(context: Context) {
         Log.d("AppLike", "onCreate(): this is in ModuleAAppLike.")

@@ -2,13 +2,13 @@ package com.rtmart.lifecycle_api
 
 import android.content.Context
 
-abstract class IAppLike {
+interface IAppLike {
 
-    abstract val priority: Int
+    val priority: Int
 
-    abstract fun onCreate(context: Context)
+    fun onCreate(context: Context)
 
-    abstract fun onTerminate()
+    fun onTerminate()
 
     companion object {
 
