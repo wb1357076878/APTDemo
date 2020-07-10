@@ -11,6 +11,7 @@
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/lifecycle-annotation" />
             <option value="$PROJECT_DIR$/lifecycle_api" />
+            <option value="$PROJECT_DIR$/lifecycle_apt" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

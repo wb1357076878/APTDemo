@@ -1,2 +1,2 @@
-include ':app', ':lifecycle_api', ':lifecycle-annotation'
+include ':app', ':lifecycle_api', ':lifecycle-annotation', ':lifecycle_apt'
 rootProject.name='APTAndByteCodeDemo'

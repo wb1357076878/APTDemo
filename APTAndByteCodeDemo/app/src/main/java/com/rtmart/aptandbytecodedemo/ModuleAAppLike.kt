@@ -2,9 +2,11 @@ package com.rtmart.aptandbytecodedemo
 
 import android.content.Context
 import android.util.Log
+import com.rtmart.lifecycle_annotation.AppLifecycle
 
 import com.rtmart.lifecycle_api.IAppLike
 
+@AppLifecycle
 class ModuleAAppLike : IAppLike {
 
     override val priority: Int
