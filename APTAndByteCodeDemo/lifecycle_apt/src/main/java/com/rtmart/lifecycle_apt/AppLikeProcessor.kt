@@ -8,6 +8,7 @@ import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.TypeName
 import com.squareup.kotlinpoet.TypeSpec
 import java.lang.reflect.Type
+import java.util.HashMap
 
 import java.util.LinkedHashSet
 
@@ -23,6 +24,8 @@ import javax.lang.model.util.Elements
 class AppLikeProcessor : AbstractProcessor() {
 
     private lateinit var mElementUtils: Elements
+
+    private val mMap = HashMap<String, AppLikeProxyClassCreator>()
 
     @Synchronized
     override fun init(processingEnv: ProcessingEnvironment) {
@@ -60,17 +63,39 @@ class AppLikeProcessor : AbstractProcessor() {
             if (!checkInterfaceFlag) {
                 throw RuntimeException("${typeElement.qualifiedName} must implements interface com.hm.lifecycle.api.IAppLike")
             }
+            val fullClassName = typeElement.qualifiedName.toString()
+            if (!mMap.containsKey(fullClassName)) {
+                println("process class name : $fullClassName")
+                val creator = AppLikeProxyClassCreator(mElementUtils, typeElement)
+                mMap[fullClassName] = creator
+            }
 
             // 生成Kotlin代理类
-            val proxyClassSimpleName = LifecycleConfig.PROXY_CLASS_PREFIX + typeElement.simpleName.toString() + LifecycleConfig.PROXY_CLASS_SUFFIX
-            val file = FileSpec.builder(LifecycleConfig.PROXY_CLASS_PACKAGE_NAME,proxyClassSimpleName)
-                    .addType(TypeSpec.classBuilder(proxyClassSimpleName)
-                            .build())
-                    .build()
-
-            file.writeTo(processingEnv.filer)
+//            val proxyClassSimpleName = LifecycleConfig.PROXY_CLASS_PREFIX + typeElement.simpleName.toString() + LifecycleConfig.PROXY_CLASS_SUFFIX
+//            val file = FileSpec.builder(LifecycleConfig.PROXY_CLASS_PACKAGE_NAME,proxyClassSimpleName)
+//                    .addType(TypeSpec.classBuilder(proxyClassSimpleName)
+//                            .build())
+//                    .build()
+//
+//            file.writeTo(processingEnv.filer)
         }
 
-        return false
+        println("start to generate proxy class code")
+        for ((className, creator) in mMap) {
+            println("generate proxy class for $className")
+
+            try {
+                val jfo = processingEnv.filer.createSourceFile(creator.proxyClassFullName)
+                val writer = jfo.openWriter()
+                writer.write(creator.generateJavaCode())
+                writer.flush()
+                writer.close()
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+
+        }
+
+        return true
     }
 }

@@ -10,10 +10,10 @@ object LifecycleConfig {
     /**
      * 生成代理类统一的后缀
      */
-    val PROXY_CLASS_SUFFIX = "$\$Proxy"
+    val PROXY_CLASS_SUFFIX = "Proxy"
 
     /**
      * 生成代理类统一的前缀
      */
-    val PROXY_CLASS_PREFIX = "RT$$"
+    val PROXY_CLASS_PREFIX = "RT"
 }
